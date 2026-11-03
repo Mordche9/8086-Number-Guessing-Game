@@ -1,110 +1,107 @@
-8086 Assembly Number Guessing Game
+# 8086 Assembly Number Guessing Game (TASM)
 
-A simple interactive Number Guessing Game written in 8086 Assembly Language using DOS and BIOS interrupts.
+An interactive **number guessing game written in 8086 Assembly Language** for the **Turbo Assembler (TASM)**. It uses DOS and BIOS interrupts, runs in DOSBox, and is a beginner-friendly Assembly Language project for learning low-level programming.
 
-The program generates a secret number between 1 and 9, and challenges the player to guess it within three attempts.
+The program generates a pseudo-random number between **1 and 9** using the BIOS clock, and the player has three attempts to guess it.
 
-Features
+## Features
 
-Random Number Generation: Uses the BIOS clock (INT 1Ah) to generate a secret number.
+- **Random Number Generation:** Reads the BIOS clock tick counter using `INT 1Ah`.
+- **Input Validation:** Accepts only digits from 1 to 9. Invalid input does not consume an attempt.
+- **Three Attempts:** The game ends after three incorrect guesses.
+- **Higher or Lower Feedback:** Tells the player whether the guess is too low or too high.
+- **Attempt Counter:** Displays how many attempts remain.
+- **Win and Game Over Messages:** Reveals the secret number if the player runs out of attempts.
 
-Input Validation: Accepts only digits between 1 and 9.
+## Example Output
 
-Attempt Counter: Gives the player three attempts.
+```text
+Guess a number between 1 and 9: 5
+Too low!
 
-Higher or Lower Feedback: Tells the player whether their guess is too high or too low.
+Try again! Attempts remaining: 2
+Guess a number between 1 and 9: 8
+Too high!
 
-Remaining Attempts: Displays how many attempts are left.
+Try again! Attempts remaining: 1
+Guess a number between 1 and 9: 7
+Correct! You won!
+```
 
-Game Over Message: Reveals the secret number if the player fails.
+## Assembly Concepts Used
 
-Win Detection: Announces when the player guesses correctly.
+| Concept | Purpose in the Program |
+|---|---|
+| `INT 21h` | DOS keyboard input and text output |
+| `INT 1Ah` | Reading the BIOS clock tick counter |
+| `DIV` | Dividing the clock value by 9 to get a remainder |
+| `CMP` | Comparing the guess with the secret number |
+| `JE`, `JB`, `JA` | Conditional jumps for winning, too-low guesses, and input validation |
+| `LOOP` | Managing the remaining attempts |
+| Data segment variables | Storing messages and the secret number |
+| ASCII | Handling and displaying digit characters |
 
-Technologies and Concepts
+## How It Works
 
-Technology / Concept
+1. The program reads the BIOS clock tick counter using `INT 1Ah`.
+2. It divides the clock value by 9 using `DIV` and gets a remainder between 0 and 8.
+3. It adds `'1'` to the remainder, producing an ASCII digit between `'1'` and `'9'`, and stores it in memory.
+4. The player enters a guess using the keyboard.
+5. The program validates the input and compares it with the secret number.
+6. The player receives feedback and has up to three attempts to guess correctly.
 
-Usage
+> **Note:** The clock-based random number generation is a simple pseudo-random technique intended for learning. It is not suitable for cryptographic applications.
 
-8086 Assembly
+## Requirements
 
-Main programming language
+- TASM (Turbo Assembler)
+- TLINK (Turbo Linker)
+- DOSBox or a real DOS environment
 
-DOS Interrupts (INT 21h)
+## Build and Run
 
-Displaying messages and reading input
+Place `guessing_game.asm` in a folder containing TASM and TLINK.
 
-BIOS Interrupts (INT 1Ah)
+### 1. Assemble the source file
 
-Reading the system clock
+```bash
+tasm guessing_game.asm
+```
 
-DIV
+### 2. Link the object file
 
-Generating a number within a range using the remainder
+```bash
+tlink guessing_game.obj
+```
 
-CMP
+### 3. Run the executable
 
-Comparing the player's guess
+```bash
+guessing_game.exe
+```
 
-Conditional Jumps
+## Using DOSBox on Windows
 
-Handling higher, lower, and correct guesses
+Mount the folder containing your assembly files and run the following commands:
 
-LOOP
-
-Managing the three attempts
-
-Memory Variables
-
-Storing the secret number and messages
-
-ASCII
-
-Handling keyboard input and displaying digits
-
-How It Works
-
-The program reads the BIOS clock tick counter.
-
-It divides the clock value by 9.
-
-The remainder is converted into an ASCII digit between 1 and 9.
-
-The secret number is stored in memory.
-
-The player receives three attempts to guess the number.
-
-The program compares each guess with the secret number.
-
-The game ends when the player wins or runs out of attempts.
-
-Note: The clock-based method provides simple pseudo-randomness. It is intended for this game, not security applications.
-
-Requirements
-
-8086-compatible assembler (such as TASM).
-
-DOS environment or DOSBox.
-
-An environment supporting DOS and BIOS interrupts.
-
-Running the Program
-
-Assemble and link the source file using TASM:
-
+```dos
+mount c C:\asm
+c:
 tasm guessing_game.asm
 tlink guessing_game.obj
-
-Run the generated executable in DOS or DOSBox:
-
 guessing_game.exe
+```
 
-Project Purpose
+## Why This Project?
 
-This project was developed as a practical exercise in learning 8086 Assembly Language.
+This project is a small, complete example of **8086 Assembly Language programming**.
 
-It demonstrates how low-level programming concepts such as registers, memory, interrupts, arithmetic operations, comparisons, conditional jumps, and loops work together to create an interactive program.
+It combines registers, memory, arithmetic operations, interrupts, comparisons, conditional jumps, and loops in one interactive program.
 
-Project Type
+It is useful for students learning computer architecture, low-level programming, and their first Assembly Language projects.
 
-Educational Assembly Language Project
+## Ideas for Future Improvements
+
+- Add a "Play Again?" option.
+- Expand the number range to 1–99 (requires multi-digit input).
+- Add difficulty settings with different numbers of attempts.
